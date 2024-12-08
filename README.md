@@ -39,7 +39,7 @@ Built on the resources of the Muzza open source project, “EchoWave” provides
   <img src="https://github.com/RRechz/EchoWave/blob/master/images/Screenshot_20241208-171633.png" width="200" />
 </p>
 
-> [!NOTES]  
+> [!NOTE]  
 > **Warning:** If you're in a region where YouTube Music is not supported, you won't be able to use this app unless you have a proxy or VPN to connect to a YTM supported region.
 >
 
