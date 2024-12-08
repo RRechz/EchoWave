@@ -22,7 +22,7 @@ Built on the resources of the Muzza open source project, “EchoWave” provides
 - Personalized quick picks
 - Discord Rich Presence support
 
-###***Steps for Android Auto;**  
+### ***Steps for Android Auto;**  
  1- Go to Android Auto's settings and tap multiple times on the version in the bottom to enable developer settings  
  2- In the three dots menu at the top-right of the screen, click "Developer settings"  
  3- Enable "Unknown sources"  
