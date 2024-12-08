@@ -2,7 +2,7 @@
 
 [![GitHub Actions Status](https://img.shields.io/github/actions/workflow/status/WSTxda/Google-Shortcuts-Launcher/.github%2Fworkflows%2Fandroid.yml?style=for-the-badge&logo=github-actions&labelColor=21262D&color=3FB950)](https://github.com/RRechz//actions) [![Platform](https://img.shields.io/badge/android-platform?style=for-the-badge&label=platform&labelColor=21262d&color=6e7681)](https://www.android.com) [![API](https://img.shields.io/badge/24%2B-level?style=for-the-badge&logo=android&logoColor=3cd382&label=API&labelColor=21262d&color=ff663b)](https://developer.android.com/studio/releases/platforms) [![Release](https://img.shields.io/github/v/release/RRechz/Google-Shortcut-Launcher-Customized-Version?display_name=tag&style=for-the-badge&logo=github&labelColor=21262d&color=1f6feb)](https://github.com/RRechz/EchoWave/releases)
 
-![alt text]([https://github.com/RRechz/Google-Shortcut-Launcher-Customized-Version/blob/master/images/New-EUI-Mode-Banner.png](https://github.com/RRechz/EchoWave/blob/master/images/banner.png))
+![alt text](https://github.com/RRechz/EchoWave/blob/master/images/banner.png)
 
 Built on the resources of the Muzza open source project, “EchoWave” provides you with a free, ad-free and uninterrupted music listening experience! Inspired by Android's pure interface design, EchoWave will offer a high level of user freedom that is unrivaled by its competitors thanks to its multiple, diverse features.
 
