@@ -60,7 +60,7 @@ If you like the EchoWave project, you can donate to help the project add more fe
 
 ## Credit
 
-Many thanks to [Maloy-Android](https://github.com/Maloy-Android/) % [samyak2403](https://github.com/samyak2403) for the Muzza & Simple-Tube source files. Thanks to his resources I was able to complete my personal project.
+Many thanks to [Maloy-Android](https://github.com/Maloy-Android/) & [samyak2403](https://github.com/samyak2403) for the Muzza & Simple-Tube source files. Thanks to his resources I was able to complete my personal project.
 
 ## Disclaimer
 
