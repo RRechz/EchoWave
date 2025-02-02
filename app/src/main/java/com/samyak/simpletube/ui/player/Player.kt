@@ -3,6 +3,8 @@ package com.samyak.simpletube.ui.player
 import android.content.Context
 import android.content.res.Configuration
 import android.graphics.drawable.BitmapDrawable
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.os.PowerManager
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
@@ -75,6 +77,7 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -126,6 +129,7 @@ import kotlinx.coroutines.withContext
 fun BottomSheetPlayer(
     state: BottomSheetState,
     navController: NavController,
+    context: Context, // Bağlamı iletmek için yeni parametre
     modifier: Modifier = Modifier,
 ) {
     val playerConnection = LocalPlayerConnection.current ?: return
@@ -415,6 +419,21 @@ fun BottomSheetPlayer(
                 )
             }
 
+            // Bağlantı durumunu kontrol edin ve uygun ikonu görüntüleyin
+            if (isConnectedToWifi(context)) {
+                Image(
+                    painter = painterResource(id = R.drawable.ic_wifi),
+                    contentDescription = "Wi-Fi Connect",
+                    modifier = Modifier.size(24.dp)
+                )
+            } else if (isConnectedToMobileData(context)) {
+                Image(
+                    painter = painterResource(id = R.drawable.ic_mobile_data),
+                    contentDescription = "Mobile Data Connect",
+                    modifier = Modifier.size(24.dp)
+                )
+            }
+
             Spacer(Modifier.height(12.dp))
 
             Row(
@@ -639,4 +658,16 @@ fun BottomSheetPlayer(
             navController = navController
         )
     }
+}
+
+fun isConnectedToWifi(context: Context): Boolean {
+    val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    val capabilities = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+    return capabilities?.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) == true
+}
+
+fun isConnectedToMobileData(context: Context): Boolean {
+    val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    val capabilities = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+    return capabilities?.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) == true
 }

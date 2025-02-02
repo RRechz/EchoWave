@@ -266,6 +266,8 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    val context = this // MainActivity'nin context'ini alın
+
     // storage permission helpers
     val permissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
@@ -911,6 +913,7 @@ class MainActivity : ComponentActivity() {
                                     if (firstSetupPassed) {
                                         BottomSheetPlayer(
                                             state = playerBottomSheetState,
+                                            context = context,
                                             navController = navController
                                         )
                                     }
