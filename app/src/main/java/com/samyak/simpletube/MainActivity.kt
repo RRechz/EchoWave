@@ -23,6 +23,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -36,7 +37,9 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
@@ -46,6 +49,8 @@ import androidx.compose.material.icons.rounded.LibraryMusic
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material3.AlertDialogDefaults
+import androidx.compose.material3.Badge
+import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -59,6 +64,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.contentColorFor
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.material3.surfaceColorAtElevation
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -73,6 +79,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -225,8 +232,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
+import org.json.JSONObject
+import java.net.URL
 import java.net.URLDecoder
 import javax.inject.Inject
 
@@ -244,6 +252,7 @@ class MainActivity : ComponentActivity() {
     lateinit var activityLauncher: ActivityLauncherHelper
 
     private var playerConnection by mutableStateOf<PlayerConnection?>(null)
+    private var latestVersionName by mutableStateOf(BuildConfig.VERSION_NAME)
     private val serviceConnection = object : ServiceConnection {
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
             if (service is MusicBinder) {
@@ -814,10 +823,18 @@ class MainActivity : ComponentActivity() {
                                                         navController.navigate("settings")
                                                     }
                                                 ) {
-                                                    Icon(
-                                                        imageVector = Icons.Rounded.Settings,
-                                                        contentDescription = null
-                                                    )
+                                                    BadgedBox(
+                                                        badge = {
+                                                            if (latestVersionName != BuildConfig.VERSION_NAME) {
+                                                                Badge()
+                                                            }
+                                                        }
+                                                    ) {
+                                                        SettingsIconWithUpdateBadge(
+                                                            currentVersion = BuildConfig.VERSION_NAME,
+                                                            onSettingsClick = { navController.navigate("settings") }
+                                                        )
+                                                    }
                                                 }
                                             }
                                         },
@@ -855,6 +872,7 @@ class MainActivity : ComponentActivity() {
                                                 )
                                             }
                                         }
+
                                     }
                                 }
 
@@ -1299,3 +1317,62 @@ val LocalPlayerAwareWindowInsets = compositionLocalOf<WindowInsets> { error("No 
 val LocalDownloadUtil = staticCompositionLocalOf<DownloadUtil> { error("No DownloadUtil provided") }
 val LocalSyncUtils = staticCompositionLocalOf<SyncUtils> { error("No SyncUtils provided") }
 val LocalIsNetworkConnected = staticCompositionLocalOf<Boolean> { error("No Network Status provided") }
+
+@Composable
+fun SettingsIconWithUpdateBadge(
+    currentVersion: String,
+    onSettingsClick: () -> Unit
+) {
+    var showUpdateBadge by remember { mutableStateOf(false) }
+    LaunchedEffect(Unit) {
+        val latestVersion = checkForUpdates()
+        if (latestVersion != null) {
+            showUpdateBadge = isNewerVersion(latestVersion, currentVersion)
+    }
+}
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = Modifier
+            .size(48.dp)
+            .clip(CircleShape)
+            .clickable(onClick = onSettingsClick)
+    ) {
+        BadgedBox(
+            badge = {
+                if (showUpdateBadge) {
+                    Badge()
+                }
+            }
+        ) {
+            Icon(
+                imageVector = Icons.Rounded.Settings,
+                contentDescription = "Configuración"
+            )
+        }
+    }
+}
+
+suspend fun checkForUpdates(): String? = withContext(Dispatchers.IO) {
+    try {
+        val url = URL("https://api.github.com/repos/RRechz/EchoWave/releases/latest")
+        val connection = url.openConnection()
+        connection.connect()
+        val json = connection.getInputStream().bufferedReader().use { it.readText() }
+        val jsonObject = JSONObject(json)
+        return@withContext jsonObject.getString("tag_name")
+    } catch (e: Exception) {
+        e.printStackTrace()
+        return@withContext null
+    }
+}
+fun isNewerVersion(remoteVersion: String, currentVersion: String): Boolean {
+    val remote = remoteVersion.removePrefix("v").split(".").map { it.toIntOrNull() ?: 0 }
+    val current = currentVersion.removePrefix("v").split(".").map { it.toIntOrNull() ?: 0 }
+    for (i in 0 until maxOf(remote.size, current.size)) {
+        val r = remote.getOrNull(i) ?: 0
+        val c = current.getOrNull(i) ?: 0
+        if (r > c) return true
+        if (r < c) return false
+    }
+    return false
+}

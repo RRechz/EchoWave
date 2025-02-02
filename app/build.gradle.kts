@@ -19,8 +19,8 @@ android {
         applicationId = "com.babelsoftware.echowave"
         minSdk = 24
         targetSdk = 35
-        versionCode = 10
-        versionName = "v2.0.3-TEST.1"
+        versionCode = 205
+        versionName = "v2.0.5"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

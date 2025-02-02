@@ -368,6 +368,8 @@
 <!-- Settings -->
     <string name="settings_debug" translatable="false">Debug</string>
     <string name="logout">Logout</string>
+    <string name="newversion">New Version Available</string>
+    <string name="hi">Welcome again, Sir!</string>
 
 <!-- Appearance settings -->
     <string name="player_background_style">Player background style</string>
@@ -446,4 +448,44 @@
     <string name="experimental_settings_title">Experimental</string>
     <string name="dev_settings_title">Enable developer settings</string>
     <string name="dev_settings_description">Reveals additional advanced settings intended for development use</string>
+
+    <!--setup screen-->
+    <string name="welcome_setup">Welcome to EchoWave</string>
+    <string name="yt_music_fingertips">YouTube Music at your fingertips</string>
+    <string name="ad_free_playback">AD Free Playback</string>
+    <string name="local_music_player">Local Music Player</string>
+    <string name="dynamic_theme">Dynamic Theme</string>
+    <string name="android_auto">Android Auto Support</string>
+    <string name="harmony_atmos">Harmony Atmos 2.0: AI-based Sound Enhancer</string>
+    <string name="auto_playlist_setup">Auto Playlist Builder</string>
+    <string name="offline_music">Offline Music Streaming</string>
+    <string name="other_features">And many other features</string>
+    <string name="ı_have_a_backup">I have a backup</string>
+    <string name="skip_setup">Skip All</string>
+    <string name="ui_setup">İnterface</string>
+    <string name="account_setup">Account</string>
+    <string name="local_media">Local media</string>
+    <string name="all_done">All Done!</string>
+    <string name="my_channel">Telegram Channel</string>
+    <string name="my_channel_info">Babel Software official telegram channel</string>
+    <string name="web_site" translatable="false">WEB Site</string>
+    <string name="web_site_info">EchoWave official website</string>
+    <string name="donate">Donate</string>
+    <string name="donate_info">Support me and projects</string>
+    <string name="developer">Developer</string>
+    <string name="info_dev">Founder of Babel Software and Python and Android Developer</string>
+    <string name="info_dev2">Front-end Developer and EchoWave WEB site designer</string>
+    <string name="info_app">Information</string>
+    <string name="other_apps">Other Android Apps</string>
+    <string name="other_apps_info">All Babel Software android apps</string>
+    <string name="tag_update">#AlwaysStayUpToDate</string>
+
+    <!--about screen-->
+    <string name="links_about" translatable="false">Links</string>
+    <string name="developer_about" translatable="false">Developers</string>
+    <string name="build_type">App Status |</string>
+    <string name="version">Version |</string>
+    <string name="official_build" translatable="false">Build |</string>
+    <string name="official">Official and Verified</string>
+    <string name="device">Device |</string>
 </resources>

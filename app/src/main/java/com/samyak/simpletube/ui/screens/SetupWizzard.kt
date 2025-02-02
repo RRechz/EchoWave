@@ -21,10 +21,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowForward
@@ -35,6 +38,7 @@ import androidx.compose.material.icons.automirrored.rounded.NavigateNext
 import androidx.compose.material.icons.automirrored.rounded.PlaylistAdd
 import androidx.compose.material.icons.rounded.Autorenew
 import androidx.compose.material.icons.rounded.Backup
+import androidx.compose.material.icons.rounded.Build
 import androidx.compose.material.icons.rounded.ColorLens
 import androidx.compose.material.icons.rounded.Contrast
 import androidx.compose.material.icons.rounded.DarkMode
@@ -50,6 +54,10 @@ import androidx.compose.material.icons.rounded.PlaylistAdd
 import androidx.compose.material.icons.rounded.SdCard
 import androidx.compose.material.icons.rounded.SignalWifiConnectedNoInternet4
 import androidx.compose.material.icons.rounded.SurroundSound
+import androidx.compose.material.icons.rounded.Tag
+import androidx.compose.material.icons.rounded.Verified
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -81,6 +89,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.platform.UriHandler
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
@@ -122,6 +131,8 @@ import com.samyak.simpletube.ui.component.SwitchPreference
 import com.samyak.simpletube.ui.component.TextFieldDialog
 import com.samyak.simpletube.ui.screens.settings.DarkMode
 import com.samyak.simpletube.ui.screens.settings.NavigationTab
+import com.samyak.simpletube.ui.screens.settings.UserCard
+import com.samyak.simpletube.ui.screens.settings.shimmerEffect
 import com.samyak.simpletube.utils.decodeTabString
 import com.samyak.simpletube.utils.rememberEnumPreference
 import com.samyak.simpletube.utils.rememberPreference
@@ -298,7 +309,7 @@ fun SetupWizard(
                         )
                         Column(verticalArrangement = Arrangement.Center) {
                             Text(
-                                text = "Welcome to echoWave",
+                                text = stringResource(R.string.welcome_setup),
                                 style = MaterialTheme.typography.headlineLarge,
                                 fontWeight = FontWeight.Bold,
                                 modifier = Modifier
@@ -322,7 +333,7 @@ fun SetupWizard(
                                     tint = MaterialTheme.colorScheme.secondary
                                 )
                                 Text(
-                                    text = "YouTube Music at your fingertips",
+                                    text = stringResource(R.string.yt_music_fingertips),
                                     style = MaterialTheme.typography.titleSmall,
                                     fontWeight = FontWeight.Bold,
                                     modifier = Modifier
@@ -340,7 +351,7 @@ fun SetupWizard(
                                     contentDescription = null
                                 )
                                 Text(
-                                    text = "AD free playback",
+                                    text = stringResource(R.string.ad_free_playback),
                                     style = MaterialTheme.typography.titleSmall,
                                     modifier = Modifier
                                         .padding(horizontal = 8.dp, vertical = 8.dp)
@@ -359,7 +370,7 @@ fun SetupWizard(
                                     tint = MaterialTheme.colorScheme.tertiary,
                                 )
                                 Text(
-                                    text = "Local music playback",
+                                    text = stringResource(R.string.local_music_player),
                                     style = MaterialTheme.typography.titleSmall,
                                     fontWeight = FontWeight.Bold,
                                     modifier = Modifier
@@ -376,7 +387,7 @@ fun SetupWizard(
                                     contentDescription = null
                                 )
                                 Text(
-                                    text = "Dynamic Theme",
+                                    text = stringResource(R.string.dynamic_theme),
                                     style = MaterialTheme.typography.titleSmall,
                                     fontWeight = FontWeight.Bold,
                                     modifier = Modifier
@@ -392,7 +403,7 @@ fun SetupWizard(
                                     contentDescription = null
                                 )
                                 Text(
-                                    text = "Android Auto Support",
+                                    text = stringResource(R.string.android_auto),
                                     style = MaterialTheme.typography.titleSmall,
                                     fontWeight = FontWeight.Bold,
                                     modifier = Modifier
@@ -409,7 +420,7 @@ fun SetupWizard(
                                     contentDescription = null
                                 )
                                 Text(
-                                    text = "Harmony Atmos 2.0: AI-based Voice Enhancer",
+                                    text = stringResource(R.string.harmony_atmos),
                                     style = MaterialTheme.typography.titleSmall,
                                     fontWeight = FontWeight.Bold,
                                     modifier = Modifier
@@ -425,7 +436,7 @@ fun SetupWizard(
                                     contentDescription = null
                                 )
                                 Text(
-                                    text = "Auto Playlist Builder",
+                                    text = stringResource(R.string.auto_playlist_setup),
                                     style = MaterialTheme.typography.titleSmall,
                                     fontWeight = FontWeight.Bold,
                                     modifier = Modifier
@@ -441,7 +452,7 @@ fun SetupWizard(
                                     contentDescription = null
                                 )
                                 Text(
-                                    text = "Offline Music Streaming",
+                                    text = stringResource(R.string.offline_music),
                                     style = MaterialTheme.typography.titleSmall,
                                     fontWeight = FontWeight.Bold,
                                     modifier = Modifier
@@ -457,7 +468,7 @@ fun SetupWizard(
                                     contentDescription = null
                                 )
                                 Text(
-                                    text = "And many other features",
+                                    text = stringResource(R.string.other_features),
                                     style = MaterialTheme.typography.titleSmall,
                                     fontWeight = FontWeight.Bold,
                                     modifier = Modifier
@@ -480,7 +491,7 @@ fun SetupWizard(
                                 }
                             ) {
                                 Text(
-                                    text = "I have a backup",
+                                    text = stringResource(R.string.ı_have_a_backup),
                                     style = MaterialTheme.typography.bodyMedium,
                                 )
                             }
@@ -492,7 +503,7 @@ fun SetupWizard(
                                 }
                             ) {
                                 Text(
-                                    text = "Skip",
+                                    text = stringResource(R.string.skip_setup),
                                     style = MaterialTheme.typography.bodyMedium,
                                 )
                             }
@@ -525,7 +536,7 @@ fun SetupWizard(
                         }
 
                         Text(
-                            text = "Interface",
+                            text = stringResource(R.string.ui_setup),
                             style = MaterialTheme.typography.headlineLarge,
                             fontWeight = FontWeight.Bold,
                             modifier = Modifier
@@ -754,7 +765,7 @@ fun SetupWizard(
                         }
 
                         Text(
-                            text = "Account",
+                            text = stringResource(R.string.account_setup),
                             style = MaterialTheme.typography.headlineLarge,
                             fontWeight = FontWeight.Bold,
                             modifier = Modifier
@@ -839,7 +850,7 @@ fun SetupWizard(
                     // local media
                     3 -> {
                         Text(
-                            text = "Local media",
+                            text = stringResource(R.string.local_media),
                             style = MaterialTheme.typography.headlineLarge,
                             fontWeight = FontWeight.Bold,
                             modifier = Modifier
@@ -882,7 +893,7 @@ fun SetupWizard(
 
                         Column(verticalArrangement = Arrangement.Center) {
                             Text(
-                                text = "All done",
+                                text = stringResource(R.string.all_done),
                                 style = MaterialTheme.typography.headlineLarge,
                                 fontWeight = FontWeight.Bold,
                                 modifier = Modifier
@@ -891,50 +902,111 @@ fun SetupWizard(
                             )
                         }
 
-
-
-                        Column(
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .padding(vertical = 20.dp)
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier.padding(top = 8.dp, bottom = 4.dp)
                         ) {
-                            Row(
-                                verticalAlignment = Alignment.Top,
-                            ) {
-                                Text(
-                                    text = "Information",
-                                    style = MaterialTheme.typography.titleLarge,
-                                    fontWeight = FontWeight.Bold,
-                                    modifier = Modifier.padding(top = 8.dp, bottom = 4.dp)
-                                )
-                            }
-
-                            Spacer(Modifier.height(4.dp))
-
-
-                            Row {
-                                IconButton(
-                                    onClick = { uriHandler.openUri("https://github.com/RRechz/EchoWave") }
-                                ) {
-                                    Icon(
-                                        painter = painterResource(R.drawable.github),
-                                        contentDescription = null
-                                    )
-                                }
-                            }
-
-                            Spacer(Modifier.height(8.dp))
-                        }
-
-
-                        Row {
+                            Icon(
+                                painter = painterResource(id = R.drawable.info),
+                                contentDescription = null
+                            )
+                            Spacer(modifier = Modifier.width(8.dp))
                             Text(
-                                text = "${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE}) | #AlwaysStayUpToDate",
-                                style = MaterialTheme.typography.titleMedium,
-                                color = MaterialTheme.colorScheme.secondary
+                                text = stringResource(R.string.info_app),
+                                style = MaterialTheme.typography.headlineSmall,
+                                fontWeight = FontWeight.Bold
                             )
                         }
+                        Spacer(Modifier.height(4.dp))
+
+                        // Build Type İnfo for Users (setup)
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Icon(
+                                imageVector = Icons.Rounded.Build,
+                                contentDescription = stringResource(R.string.build_type),
+                                modifier = Modifier.size(24.dp)
+                            )
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text(text = stringResource(R.string.build_type))
+                            Spacer(modifier = Modifier.width(4.dp))
+                            Text(text = BuildConfig.BUILD_TYPE)
+                        }
+
+                        // Version İnfo for Users (setup)
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp),
+                            verticalAlignment = Alignment.CenterVertically
+
+                        ){
+                            Icon(
+                                imageVector = Icons.Rounded.Verified,
+                                contentDescription = stringResource(R.string.version),
+                                modifier = Modifier.size(24.dp)
+                            )
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text(text = stringResource(R.string.version))
+                            Spacer(modifier = Modifier.width(4.dp))
+                            Text(text = BuildConfig.VERSION_NAME)
+                        }
+
+                        // #AlwaysStayUpTodate
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp),
+                            verticalAlignment = Alignment.CenterVertically
+
+                        ){
+                            Icon(
+                                imageVector = Icons.Rounded.Tag,
+                                contentDescription = stringResource(R.string.tag_update),
+                                modifier = Modifier.size(24.dp)
+                            )
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text(text = stringResource(R.string.tag_update))
+                        }
+
+                        Spacer(Modifier.height(4.dp))
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier.padding(top = 8.dp, bottom = 4.dp)
+                        ) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.person),
+                                contentDescription = null
+                            )
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text(
+                                text = stringResource(R.string.developer),
+                                style = MaterialTheme.typography.headlineSmall,
+                                fontWeight = FontWeight.Bold
+                            )
+                        }
+                        UserCards(uriHandler) // Profile card with GitHub Profile Photo
+                        Spacer(Modifier.height(4.dp))
+
+                        CardItem(
+                            icon = R.drawable.web_site,
+                            title = stringResource(R.string.web_site),
+                            subtitle = stringResource(R.string.web_site_info),
+                            onClick = { uriHandler.openUri("https://helelelerescci.github.io/EchoWEB/") }
+                        )
+
+                        Spacer(Modifier.height(20.dp))
+
+                        CardItem(
+                            icon = R.drawable.donate,
+                            title = stringResource(R.string.donate),
+                            subtitle = stringResource(R.string.donate_info),
+                            onClick = { uriHandler.openUri("https://buymeacoffee.com/section") }
+                        )
                     }
                 }
             }
@@ -961,4 +1033,68 @@ fun SetupWizard(
             }
         }
     }
+}
+
+@Composable
+fun UserCards(uriHandler: UriHandler) {
+    Column {
+        UserCard(
+            imageUrl = "https://avatars.githubusercontent.com/u/178022701?v=4",
+            name = "Mustafa Burak Özcan",
+            role = stringResource(R.string.info_dev),
+            onClick = { uriHandler.openUri("https://github.com/RRechz") }
+        )
+    }
+}
+
+@Composable
+fun CardItem(
+    icon: Int,
+    title: String,
+    subtitle: String,
+    onClick: () -> Unit
+) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(120.dp)
+//            .shadow(8.dp, RoundedCornerShape(16.dp))
+            .padding(horizontal = 16.dp),
+        shape = RoundedCornerShape(20.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceVariant,
+        ),
+        onClick = onClick
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Icon(
+                painter = painterResource(icon),
+                contentDescription = null,
+                modifier = Modifier.size(28.dp),
+                tint = MaterialTheme.colorScheme.primary
+            )
+            Spacer(modifier = Modifier.width(16.dp))
+            Column {
+                Text(
+                    text = title,
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(
+                    text = subtitle,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f)
+                )
+
+            }
+
+        }
+    }
+
 }
