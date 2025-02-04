@@ -78,6 +78,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -419,21 +420,28 @@ fun BottomSheetPlayer(
                 )
             }
 
-            // Bağlantı durumunu kontrol edin ve uygun ikonu görüntüleyin
+            // Bağlantı durumunu kontrol edin ve uygun ikonu ve metni görüntüleyin
             if (isConnectedToWifi(context)) {
-                Image(
-                    painter = painterResource(id = R.drawable.ic_wifi),
-                    contentDescription = "Wi-Fi Connect",
-                    modifier = Modifier.size(24.dp)
-                )
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Image(
+                        painter = painterResource(id = R.drawable.ic_wifi),
+                        contentDescription = "Wi-Fi Connect",
+                        modifier = Modifier.size(24.dp)
+                    )
+                    Spacer(modifier = Modifier.width(4.dp))
+                    Text(stringResource(id = R.string.wifi_connected)) // String değerini kullanın
+                }
             } else if (isConnectedToMobileData(context)) {
-                Image(
-                    painter = painterResource(id = R.drawable.ic_mobile_data),
-                    contentDescription = "Mobile Data Connect",
-                    modifier = Modifier.size(24.dp)
-                )
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Image(
+                        painter = painterResource(id = R.drawable.ic_mobile_data),
+                        contentDescription = "Mobile Data Connect",
+                        modifier = Modifier.size(24.dp)
+                    )
+                    Spacer(modifier = Modifier.width(4.dp))
+                    Text(stringResource(id = R.string.mobile_data_connected)) // String değerini kullanın
+                }
             }
-
             Spacer(Modifier.height(12.dp))
 
             Row(
