@@ -1,7 +1,7 @@
 # EchoWave
 [![GitHub Actions Status](https://img.shields.io/github/actions/workflow/status/WSTxda/Google-Shortcuts-Launcher/.github%2Fworkflows%2Fandroid.yml?style=for-the-badge&logo=github-actions&labelColor=21262D&color=3FB950)](https://github.com/WSTxda/Google-Shortcuts-Launcher/actions) [![Platform](https://img.shields.io/badge/android-platform?style=for-the-badge&label=platform&labelColor=21262d&color=6e7681)](https://www.android.com) [![API](https://img.shields.io/badge/24%2B-level?style=for-the-badge&logo=android&logoColor=3cd382&label=API&labelColor=21262d&color=ff663b)](https://developer.android.com/studio/releases/platforms) [![Release](https://img.shields.io/github/v/release/RRechz/EchoWave?display_name=tag&style=for-the-badge&logo=github&labelColor=21262d&color=1f6feb)](https://github.com/RRechz/EchoWave/releases) [![Downloads](https://img.shields.io/github/downloads/RRechz/EchoWave/total)](https://github.com/RRechz/EchoWave/releases) ![pv](https://pageview.vercel.app/?github_user=EchoWave)
 
-![alt text](https://github.com/RRechz/EchoWave/blob/main/images/banner.png)
+![alt text](https://github.com/RRechz/EchoWave/blob/master/images/banner.png)
 
 Built on the resources of the Muzza open source project, EchoWave promises you a free, ad-free and free music listening experience with an interface inspired by Android's pure Material You and Material 3 design. You can freely listen to all the music/songs you want without paying anything and without ads.
 
@@ -12,19 +12,24 @@ Built on the resources of the Muzza open source project, EchoWave promises you a
 - Play songs from YT/YT Music without ads
 - Background playback
 - Search songs, videos, albums, and playlists from YouTube Music
+- *Harmony Atmos 2.0 from Babel Software
 - Login support
-- Cache and download songs for offline playback
+- Offline Music Experience (Download)
 - Synchronized lyrics
 - Lyrics translator
 - Skip silence
 - Audio normalization
 - Adjust tempo/pitch
 - Dynamic theme
-- *Android Auto support
+- **Android Auto support
 - Personalized quick picks
 - Discord Rich Presence support
 
-> *Here's what you need to do for Android Auto;
+> *Harmony Atmos 2.0 - AI-based Sound Enhancer
+>
+> A simple audio enhancer similar to Dolby Atmos that gradually multiplies the fixed virtual bitrate values added to the existing bitrate values to provide the user with clean and high quality sound.
+
+> **Here's what you need to do for Android Auto;
 > 1. Go to Android Auto's settings and tap multiple times on the version in the bottom to enable developer settings
 > 2. In the three dots menu at the top-right of the screen, click "Developer settings"
 > 3. Enable "Unknown sources"
@@ -32,18 +37,17 @@ Built on the resources of the Muzza open source project, EchoWave promises you a
 ## Screenshots
 
 <p float="left">
-  <img src="https://github.com/RRechz/EchoWave/blob/main/images/Screenshot_20241222-184827.png" width="200" />
-  <img src="https://github.com/RRechz/EchoWave/blob/main/images/Screenshot_20241222-184834.png" width="200" />
-  <img src="https://github.com/RRechz/EchoWave/blob/main/images/Screenshot_20241222-184844.png" width="200" />
+  <img src="https://github.com/RRechz/EchoWave/blob/master/images/1738498900946.jpg" width="200" />
+  <img src="https://github.com/RRechz/EchoWave/blob/master/images/1738498900940.jpg" width="200" />
+  <img src="https://github.com/RRechz/EchoWave/blob/master/images/1738498900933.jpg" width="200" />
 </p>
 <p float="left">
-  <img src="https://github.com/RRechz/EchoWave/blob/main/images/Screenshot_20241222-184850.png" width="200" />
-  <img src="https://github.com/RRechz/EchoWave/blob/main/images/Screenshot_20241222-184903.png" width="200" />
-  <img src="https://github.com/RRechz/EchoWave/blob/main/images/Screenshot_20241222-184913.png" width="200" />
+  <img src="https://github.com/RRechz/EchoWave/blob/master/images/1738498900929.jpg" width="200" />
+  <img src="https://github.com/RRechz/EchoWave/blob/master/images/1738498900923.jpg" width="200" />
+  <img src="https://github.com/RRechz/EchoWave/blob/master/images/1738498900918.jpg" width="200" />
 </p>
 <p float="left">
-  <img src="https://github.com/RRechz/EchoWave/blob/main/images/Screenshot_20241222-184941.png" width="200" />
-  <img src="https://github.com/RRechz/EchoWave/blob/main/images/Screenshot_20241222-184950.png" width="200" />
+  <img src="https://github.com/RRechz/EchoWave/blob/master/images/1738498900913.jpg" width="200" />
 </p>
 
 > [!NOTE]
@@ -55,11 +59,11 @@ Built on the resources of the Muzza open source project, EchoWave promises you a
 
 If you like the EchoWave project, you can donate to help the project add more features and keep it updated for longer.
 
-<a href="https://www.buymeacoffee.com/section"><img src="https://github.com/RRechz/EchoWave/blob/main/images/buymeacoffee.png" alt="Liberapay" height="60" ></a>
+<a href="https://www.buymeacoffee.com/section" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
 
 ## Credit
 
-Many thanks to [Maloy-Android](https://github.com/Maloy-Android/) for the Muzza source files. Thanks to his resources I was able to complete my personal project.
+Many thanks to [Maloy-Android](https://github.com/Maloy-Android/) & [samyak2403](https://github.com/samyak2403) for the Muzza and Simple-Tube source files. Thanks to his resources I was able to complete my personal project.
 
 ## Disclaimer
 
