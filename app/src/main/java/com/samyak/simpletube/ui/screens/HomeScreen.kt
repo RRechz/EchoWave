@@ -5,6 +5,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
 import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
@@ -36,6 +37,7 @@ import androidx.compose.material.icons.rounded.History
 import androidx.compose.material.icons.rounded.Person
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults.Indicator
 import androidx.compose.material3.pulltorefresh.pullToRefresh
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
@@ -111,6 +113,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlin.math.min
 import kotlin.random.Random
+import java.util.Calendar
 
 @SuppressLint("UnusedBoxWithConstraintsScope")
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
@@ -359,6 +362,30 @@ fun HomeScreen(
             contentPadding = LocalPlayerAwareWindowInsets.current.asPaddingValues()
         ) {
             item {
+                // Zamanı al
+                val currentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
+
+                // Uygun mesajı seç
+                val greetingMessage = when (currentHour) {
+                    in 6..10 -> stringResource(id = R.string.good_morning)
+                    in 11..17 -> stringResource(id = R.string.good_afternoon)
+                    else -> stringResource(id = R.string.good_evening)
+                }
+
+                // Mesajı ve arama alanını içeren bir Column oluştur
+                Column(
+                    modifier = Modifier
+                        .windowInsetsPadding(WindowInsets.systemBars.only(WindowInsetsSides.Horizontal))
+                        .padding(horizontal = 12.dp, vertical = 6.dp)
+                        .fillMaxWidth()
+                        .animateItem()
+                ) {
+                    // Mesajı görüntüle
+                    Text(
+                        text = greetingMessage,
+                        style = MaterialTheme.typography.headlineMedium
+                    )
+                }
                 Row(
                     modifier = Modifier
                         .windowInsetsPadding(WindowInsets.systemBars.only(WindowInsetsSides.Horizontal))
