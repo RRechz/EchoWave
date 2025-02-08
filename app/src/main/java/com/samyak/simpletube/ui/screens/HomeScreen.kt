@@ -111,9 +111,9 @@ import com.zionhuang.innertube.utils.parseCookieString
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import java.util.Calendar
 import kotlin.math.min
 import kotlin.random.Random
-import java.util.Calendar
 
 @SuppressLint("UnusedBoxWithConstraintsScope")
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
@@ -356,7 +356,6 @@ fun HomeScreen(
                 }
             )
         }
-
         LazyColumn(
             state = lazylistState,
             contentPadding = LocalPlayerAwareWindowInsets.current.asPaddingValues()
@@ -383,7 +382,7 @@ fun HomeScreen(
                     // Mesajı görüntüle
                     Text(
                         text = greetingMessage,
-                        style = MaterialTheme.typography.headlineMedium
+                        style = MaterialTheme.typography.headlineSmall,
                     )
                 }
                 Row(

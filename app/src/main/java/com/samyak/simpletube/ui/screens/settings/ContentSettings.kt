@@ -9,7 +9,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.automirrored.rounded.Logout
 import androidx.compose.material.icons.rounded.Downloading
-import androidx.compose.material.icons.rounded.Favorite
 import androidx.compose.material.icons.rounded.Language
 import androidx.compose.material.icons.rounded.LocationOn
 import androidx.compose.material.icons.rounded.Person
@@ -195,8 +194,8 @@ fun ContentSettings(
             values = listOf(LikedAutodownloadMode.OFF, LikedAutodownloadMode.ON, LikedAutodownloadMode.WIFI_ONLY),
             selectedValue = likedAutoDownload,
             valueText = { when (it) {
-                LikedAutodownloadMode.OFF -> stringResource(androidx.compose.ui.R.string.state_off)
-                LikedAutodownloadMode.ON -> stringResource(androidx.compose.ui.R.string.state_on)
+                LikedAutodownloadMode.OFF -> stringResource(R.string.state_off)
+                LikedAutodownloadMode.ON -> stringResource(R.string.state_on)
                 LikedAutodownloadMode.WIFI_ONLY -> stringResource(R.string.wifi_only)
             } },
             onValueSelected = onLikedAutoDownload
@@ -205,6 +204,7 @@ fun ContentSettings(
         PreferenceGroupTitle(
             title = "LOCALIZATION"
         )
+
         ListPreference(
             title = { Text(stringResource(R.string.content_language)) },
             icon = { Icon(Icons.Rounded.Language, null) },

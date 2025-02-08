@@ -1,11 +1,13 @@
 package com.samyak.simpletube.ui.player
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.graphics.drawable.BitmapDrawable
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.PowerManager
+import android.preference.PreferenceManager
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.LinearEasing
@@ -57,6 +59,7 @@ import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -95,6 +98,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.samyak.simpletube.LocalPlayerConnection
 import com.samyak.simpletube.R
+import com.samyak.simpletube.constants.AudioQuality
 import com.samyak.simpletube.constants.DarkModeKey
 import com.samyak.simpletube.constants.PlayerBackgroundStyleKey
 import com.samyak.simpletube.constants.PlayerHorizontalPadding
@@ -426,7 +430,7 @@ fun BottomSheetPlayer(
                     Image(
                         painter = painterResource(id = R.drawable.ic_wifi),
                         contentDescription = "Wi-Fi Connect",
-                        modifier = Modifier.size(24.dp)
+                        modifier = Modifier.size(14.dp)
                     )
                     Spacer(modifier = Modifier.width(4.dp))
                     Text(stringResource(id = R.string.wifi_connected)) // String değerini kullanın
@@ -436,7 +440,7 @@ fun BottomSheetPlayer(
                     Image(
                         painter = painterResource(id = R.drawable.ic_mobile_data),
                         contentDescription = "Mobile Data Connect",
-                        modifier = Modifier.size(24.dp)
+                        modifier = Modifier.size(14.dp)
                     )
                     Spacer(modifier = Modifier.width(4.dp))
                     Text(stringResource(id = R.string.mobile_data_connected)) // String değerini kullanın
