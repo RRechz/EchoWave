@@ -168,6 +168,7 @@ import com.samyak.simpletube.ui.screens.NewReleaseScreen
 import com.samyak.simpletube.ui.screens.Screens
 import com.samyak.simpletube.ui.screens.SetupWizard
 import com.samyak.simpletube.ui.screens.StatsScreen
+import com.samyak.simpletube.ui.screens.UpdateScreen
 import com.samyak.simpletube.ui.screens.YouTubeBrowseScreen
 import com.samyak.simpletube.ui.screens.artist.ArtistAlbumsScreen
 import com.samyak.simpletube.ui.screens.artist.ArtistItemsScreen
@@ -475,6 +476,7 @@ class MainActivity : ComponentActivity() {
                     }
                 }
             }
+
             OuterTuneTheme(
                 darkTheme = useDarkTheme,
                 pureBlack = pureBlack,
@@ -1296,6 +1298,7 @@ class MainActivity : ComponentActivity() {
                     }
                 }
             }
+
         }
     }
 
@@ -1327,12 +1330,22 @@ fun SettingsIconWithUpdateBadge(
     onSettingsClick: () -> Unit
 ) {
     var showUpdateBadge by remember { mutableStateOf(false) }
+    var showUpdateDialog by remember { mutableStateOf(false) } // Pop-up'ı göstermek için state
+    var lastUpdateNotificationTime by remember { mutableStateOf(0L) }
+
     LaunchedEffect(Unit) {
         val latestVersion = checkForUpdates()
-        if (latestVersion != null) {
+        if (latestVersion!= null) {
             showUpdateBadge = isNewerVersion(latestVersion, currentVersion)
+
+            val currentTime = System.currentTimeMillis()
+            if (showUpdateBadge && currentTime - lastUpdateNotificationTime > 6 * 60 * 60 * 1000) {
+                showUpdateDialog = true // Pop-up'ı göster
+                lastUpdateNotificationTime = currentTime
+            }
+        }
     }
-}
+
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier
@@ -1352,6 +1365,11 @@ fun SettingsIconWithUpdateBadge(
                 contentDescription = "Configuración"
             )
         }
+    }
+
+    // UpdateScreen'i göster
+    if (showUpdateDialog) {
+        UpdateScreen(onDismiss = { showUpdateDialog = false })
     }
 }
 
