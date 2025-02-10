@@ -26,6 +26,9 @@
     <string name="your_youtube_playlists">Your YouTube playlists</string>
     <string name="similar_to">Similar to</string>
     <string name="new_release_albums">New release albums</string>
+    <string name="good_morning">Good Morning Sir!</string>
+    <string name="good_afternoon">Good Afternoon Sir!</string>
+    <string name="good_evening">Good Evening Sir!</string>
 
     <!-- History -->
     <string name="today">Today</string>
@@ -389,12 +392,16 @@
     <string name="ytm_sync">Automatically sync with your YouTube Music account</string>
     <string name="like_autodownload">Automatically download your liked songs</string>
     <string name="wifi_only">Wifi only</string>
+    <string name="state_off">Off</string>
+    <string name="state_on">On</string>
 
     <!-- Player settings -->
     <string name="audio_offload">Enable offload</string>
     <string name="audio_offload_description">Use the offload audio path for audio playback. Disabling this may increase power usage but can be useful if you experience issues with audio playback or post processing</string>
     <string name="keep_alive_title">Prevent system killing app</string>
     <string name="keep_alive_description">Use a foreground notification to prevent OuterTune from being randomly closed by the system.</string>
+    <string name="wifi_connected" translatable="false">Wi-Fi</string>
+    <string name="mobile_data_connected">Mobile Data</string>
 
 <!--Lyrics settings -->
     <string name="lyrics_settings_title">Lyrics</string>
@@ -478,7 +485,7 @@
     <string name="info_app">Information</string>
     <string name="other_apps">Other Android Apps</string>
     <string name="other_apps_info">All Babel Software android apps</string>
-    <string name="tag_update">#AlwaysStayUpToDate</string>
+    <string name="tag_update" translatable="false">#AlwaysStayUpToDate</string>
 
     <!--about screen-->
     <string name="links_about" translatable="false">Links</string>
@@ -488,4 +495,14 @@
     <string name="official_build" translatable="false">Build |</string>
     <string name="official">Official and Verified</string>
     <string name="device">Device |</string>
+
+    <!--update screen-->
+    <string name="update_available_title">New Update Available</string>
+    <string name="update_available_message">For an uninterrupted music experience, you need to keep the app up to date. Updating is quite easy :)</string>
+    <string name="changelog_text">Changelog | New Version</string>
+    <string name="update_1">· Improved overall app stability</string>
+    <string name="update_2">· App source updated to latest dependencies</string>
+    <string name="update_available_release_notes">· For the full changelog, please visit our GitHub page</string>
+    <string name="update">Update</string>
+    <string name="cancel">Cancel</string>
 </resources>

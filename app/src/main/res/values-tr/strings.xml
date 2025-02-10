@@ -20,6 +20,7 @@
     <string name="quick_picks_empty">Hızlı seçimlerinizi oluşturmak için birkaç şarkı dinleyin</string>
     <string name="new_release_albums">Yeni çıkan albümler</string>
     <!-- History -->
+    <string name="good_evening">İyi Akşamlar Efendim!</string>
     <string name="today">Bugün</string>
     <string name="yesterday">Dün</string>
     <string name="this_week">Bu hafta</string>
@@ -321,10 +322,13 @@
     <string name="ytm_sync">YouTube Music hesabınızla otomatik olarak senkronize edin</string>
     <string name="like_autodownload">Beğendiğiniz şarkıları otomatik olarak indirin</string>
     <string name="wifi_only">Yalnızca Wi-Fi</string>
+    <string name="state_off">Kapalı</string>
+    <string name="state_on">Açık</string>
     <string name="audio_offload">Yük boşaltmayı etkinleştir</string>
     <string name="audio_offload_description">Ses oynatma için yüksüz ses yolunu kullanın. Bunu devre dışı bırakmak güç kullanımını artırabilir ancak ses oynatma veya son işlemeyle ilgili sorunlar yaşıyorsanız yararlı olabilir</string>
     <string name="keep_alive_title">Sistem öldürme uygulamasını önleyin</string>
     <string name="keep_alive_description">OuterTune\'un sistem tarafından rastgele kapatılmasını önlemek için bir ön plan bildirimi kullanın.</string>
+    <string name="mobile_data_connected">Mobile Veri</string>
     <string name="lyrics_settings_title">Şarkı Sözleri</string>
     <string name="lyrics_multiline_title">Çok satırlı şarkı sözlerini okuma</string>
     <string name="lyrics_multiline_description">Senkronizasyon noktaları arasındaki tüm satırları tek bir şarkı sözü metni olarak değerlendirin</string>
@@ -384,7 +388,7 @@
     <string name="donate">Bağış</string>
     <string name="donate_info">Beni ve Projelerimi destekleyin</string>
     <string name="developer">Geliştirici</string>
-    <string name="info_dev">Babel Software Kurucusu ve Python ve Android Geliştiricisi</string>
+    <string name="info_dev">Babel Software Kurucusu ve Android Geliştiricisi</string>
     <string name="info_dev2">Front-end Geliştirici ve EchoWave WEB sitesi tasarımcısı</string>
     <string name="info_app">Bilgilendirme</string>
     <string name="other_apps">Diğer Android Uygulamaları</string>
@@ -393,4 +397,14 @@
     <string name="version">Sürüm |</string>
     <string name="official">Resmi ve Doğrulandı</string>
     <string name="device">Cihaz |</string>
+    <string name="good_morning">Günaydın Efendim!</string>
+    <string name="good_afternoon">İyi Günler Efendim!</string>
+    <string name="update_available_title">Yeni Güncelleme Mevcut</string>
+    <string name="update_available_message">Kesintisiz bir müzik deneyimi için uygulamayı güncel tutmanız gerekir. Güncellemek oldukça kolay :)</string>
+    <string name="changelog_text">Değişiklik Günlüğü | Yeni Sürüm</string>
+    <string name="update_1">· Geliştirilmiş genel uygulama kararlılığı</string>
+    <string name="update_2">· Uygulama kaynağı en son bağımlılıklara güncellendi</string>
+    <string name="update_available_release_notes">· Tüm değişiklik günlüğü için lütfen GitHub sayfamızı ziyaret edin</string>
+    <string name="update">Güncelle</string>
+    <string name="cancel">Kapat</string>
 </resources>
