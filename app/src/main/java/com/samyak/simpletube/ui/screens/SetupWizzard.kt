@@ -203,7 +203,7 @@ fun SetupWizard(
                 }
             ) {
                 Text(
-                    text = "Back",
+                    text = stringResource(R.string.back), // Back button on Setup
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.padding(horizontal = 8.dp, vertical = 8.dp)
@@ -239,7 +239,7 @@ fun SetupWizard(
                 }
             ) {
                 Text(
-                    text = "Next",
+                    text = stringResource(R.string.next), // Next button on Setup
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.padding(horizontal = 8.dp, vertical = 8.dp)
@@ -299,7 +299,8 @@ fun SetupWizard(
                             contentDescription = null,
                             colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.primary, BlendMode.SrcIn),
                             modifier = Modifier
-                                .clip(CircleShape)
+                                .size(128.dp) // Görselin boyutunu 48 dp olarak ayarla
+                                .clip(CircleShape) // Görseli daire şeklinde kırp
                                 .background(
                                     MaterialTheme.colorScheme.surfaceColorAtElevation(
                                         NavigationBarDefaults.Elevation

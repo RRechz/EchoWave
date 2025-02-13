@@ -20,7 +20,7 @@ android {
         minSdk = 24
         targetSdk = 35
         versionCode = 205
-        versionName = "v2.0.5"
+        versionName = "v2.0.9-TEST.3"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -164,6 +164,8 @@ dependencies {
 
     implementation(libs.hilt)
     ksp(libs.hilt.compiler)
+
+    implementation("com.jakewharton.timber:timber:5.0.1")
 
     implementation(projects.innertube)
     implementation(projects.kugou)

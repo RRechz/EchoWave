@@ -1,13 +1,11 @@
 package com.samyak.simpletube.ui.player
 
 import android.content.Context
-import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.graphics.drawable.BitmapDrawable
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.PowerManager
-import android.preference.PreferenceManager
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.LinearEasing
@@ -59,7 +57,6 @@ import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -98,7 +95,6 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.samyak.simpletube.LocalPlayerConnection
 import com.samyak.simpletube.R
-import com.samyak.simpletube.constants.AudioQuality
 import com.samyak.simpletube.constants.DarkModeKey
 import com.samyak.simpletube.constants.PlayerBackgroundStyleKey
 import com.samyak.simpletube.constants.PlayerHorizontalPadding
@@ -436,9 +432,19 @@ fun BottomSheetPlayer(
                     Text(stringResource(id = R.string.wifi_connected)) // String değerini kullanın
                 }
             } else if (isConnectedToMobileData(context)) {
+                val signalStrength = getMobileDataSignalStrength(context)
+                val iconResId = when (signalStrength) {
+                    "E" -> R.drawable.ic_mobile_data_2g
+                    "H" -> R.drawable.ic_mobile_data_3g
+                    "H+" -> R.drawable.ic_mobile_data_3g_plus
+                    "4G/LTE" -> R.drawable.ic_mobile_data_4g
+                    "4.5G/LTE+" -> R.drawable.ic_mobile_data_4g_plus
+                    "5G/NR" -> R.drawable.ic_mobile_data_5g
+                    else -> R.drawable.ic_mobile_data_5g
+                }
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Image(
-                        painter = painterResource(id = R.drawable.ic_mobile_data),
+                        painter = painterResource(id = iconResId),
                         contentDescription = "Mobile Data Connect",
                         modifier = Modifier.size(14.dp)
                     )
@@ -669,6 +675,24 @@ fun BottomSheetPlayer(
             onBackgroundColor = onBackgroundColor,
             navController = navController
         )
+    }
+}
+
+fun getMobileDataSignalStrength(context: Context): String? {
+    val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    val capabilities = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+    if (capabilities?.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) == true) {
+        return when {
+            capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_MMS) -> "2G" // MMS desteği varsa 2G olduğunu varsayıyoruz
+            capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_SUPL) -> "3G" // SUPL desteği varsa 3G olduğunu varsayıyoruz
+            capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_DUN) -> "3G+" // DUN desteği varsa 3G+ olduğunu varsayıyoruz
+            capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) && capabilities.linkDownstreamBandwidthKbps >= 10000 -> "4G/LTE" // İnternet hızı 10 Mbps'den yüksekse 4G/LTE olduğunu varsayıyoruz
+            capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) && capabilities.linkDownstreamBandwidthKbps >= 50000 -> "4.5G/LTE+" // İnternet hızı 50 Mbps'den yüksekse 4.5G/LTE+ olduğunu varsayıyoruz
+            capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) && capabilities.linkDownstreamBandwidthKbps >= 100000 -> "5G/NR" // İnternet hızı 100 Mbps'den yüksekse 5G/NR olduğunu varsayıyoruz
+            else -> "Unknown" // Diğer durumlarda bilinmiyor olarak işaretleyin
+        }
+    } else {
+        return null
     }
 }
 

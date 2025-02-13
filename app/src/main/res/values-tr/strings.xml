@@ -366,6 +366,7 @@
     <string name="experimental_settings_title">Deneysel</string>
     <string name="dev_settings_title">Geliştirici Ayarlarını Etkinleştir</string>
     <string name="dev_settings_description">Geliştirme kullanımına yönelik ek gelişmiş ayarları ortaya çıkarır</string>
+    <string name="next">İleri</string>
     <string name="welcome_setup">EchoWave\'e Hoşgeldiniz</string>
     <string name="yt_music_fingertips">YouTube Müzik parmaklarınızın ucunda</string>
     <string name="ad_free_playback">Reklamsız Oynatma</string>
@@ -400,11 +401,8 @@
     <string name="good_morning">Günaydın Efendim!</string>
     <string name="good_afternoon">İyi Günler Efendim!</string>
     <string name="update_available_title">Yeni Güncelleme Mevcut</string>
-    <string name="update_available_message">Kesintisiz bir müzik deneyimi için uygulamayı güncel tutmanız gerekir. Güncellemek oldukça kolay :)</string>
-    <string name="changelog_text">Değişiklik Günlüğü | Yeni Sürüm</string>
-    <string name="update_1">· Geliştirilmiş genel uygulama kararlılığı</string>
-    <string name="update_2">· Uygulama kaynağı en son bağımlılıklara güncellendi</string>
-    <string name="update_available_release_notes">· Tüm değişiklik günlüğü için lütfen GitHub sayfamızı ziyaret edin</string>
+    <string name="update_available_message">Değişiklik Günlüğü | Yeni Sürüm</string>
     <string name="update">Güncelle</string>
     <string name="cancel">Kapat</string>
+    <string name="back">Geri</string>
 </resources>

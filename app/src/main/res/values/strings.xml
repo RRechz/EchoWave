@@ -457,6 +457,8 @@
     <string name="dev_settings_description">Reveals additional advanced settings intended for development use</string>
 
     <!--setup screen-->
+    <string name="back">Back</string>
+    <string name="next">Next</string>
     <string name="welcome_setup">Welcome to EchoWave</string>
     <string name="yt_music_fingertips">YouTube Music at your fingertips</string>
     <string name="ad_free_playback">AD Free Playback</string>
@@ -498,11 +500,7 @@
 
     <!--update screen-->
     <string name="update_available_title">New Update Available</string>
-    <string name="update_available_message">For an uninterrupted music experience, you need to keep the app up to date. Updating is quite easy :)</string>
-    <string name="changelog_text">Changelog | New Version</string>
-    <string name="update_1">· Improved overall app stability</string>
-    <string name="update_2">· App source updated to latest dependencies</string>
-    <string name="update_available_release_notes">· For the full changelog, please visit our GitHub page</string>
+    <string name="update_available_message">Changelog | New Version</string>
     <string name="update">Update</string>
     <string name="cancel">Cancel</string>
 </resources>
