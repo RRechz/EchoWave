@@ -4,16 +4,21 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
-import timber.log.Timber
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
+import timber.log.Timber
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.layout
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.samyak.simpletube.R
@@ -37,13 +42,34 @@ fun UpdateScreen(onDismiss: () -> Unit) {
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text(context.getString(R.string.update_available_title)) },
-        text = {
+        title = {
+            // LazyColumn içeriğini Column kullanarak Text composable'ına dönüştürüyoruz
             Column {
-                Spacer(modifier = Modifier.height(16.dp))
-                Text(changelog)
                 if (currentVersion.isNotBlank() && latestVersion.isNotBlank()) {
-                    Text(text = "v$currentVersion \u2192 v$latestVersion")
+                    Text(text = "${stringResource(R.string.newversion)} $latestVersion")
+                }
+            }
+        },
+        text = {
+            // Changelog metnini ve sürüm bilgilerini görüntülemek için Box ve LazyColumn kullanılır.
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+                    .layout { measurable, constraints ->
+                        // Constraints'i Modifier.layout içinde uyguluyoruz
+                        // maxHeight değerini Dp'ye dönüştürüyoruz
+                        val placeable = measurable.measure(constraints.copy(maxHeight = 300.dp.roundToPx()))
+                        // Int değerlerini kullanıyoruz
+                        layout(placeable.width, placeable.height) {
+                            placeable.placeRelative(0, 0)
+                        }
+                    },
+                contentAlignment = Alignment.Center // İçeriği ortalamak için
+            ) {
+                // LazyColumn, uzun içerikleri verimli bir şekilde görüntülemek için kullanılır.
+                LazyColumn {
+                    item { Text(changelog) }
                 }
             }
         },
