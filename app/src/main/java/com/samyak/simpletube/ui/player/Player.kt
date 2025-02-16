@@ -439,8 +439,7 @@ fun BottomSheetPlayer(
                     "H+" -> R.drawable.ic_mobile_data_3g_plus
                     "4G/LTE" -> R.drawable.ic_mobile_data_4g
                     "4.5G/LTE+" -> R.drawable.ic_mobile_data_4g_plus
-                    "5G/NR" -> R.drawable.ic_mobile_data_5g
-                    else -> R.drawable.ic_mobile_data_5g
+                    else -> R.drawable.ic_mobile_data_4g_plus
                 }
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Image(
@@ -688,7 +687,6 @@ fun getMobileDataSignalStrength(context: Context): String? {
             capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_DUN) -> "3G+" // DUN desteği varsa 3G+ olduğunu varsayıyoruz
             capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) && capabilities.linkDownstreamBandwidthKbps >= 10000 -> "4G/LTE" // İnternet hızı 10 Mbps'den yüksekse 4G/LTE olduğunu varsayıyoruz
             capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) && capabilities.linkDownstreamBandwidthKbps >= 50000 -> "4.5G/LTE+" // İnternet hızı 50 Mbps'den yüksekse 4.5G/LTE+ olduğunu varsayıyoruz
-            capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) && capabilities.linkDownstreamBandwidthKbps >= 100000 -> "5G/NR" // İnternet hızı 100 Mbps'den yüksekse 5G/NR olduğunu varsayıyoruz
             else -> "Unknown" // Diğer durumlarda bilinmiyor olarak işaretleyin
         }
     } else {
