@@ -56,6 +56,7 @@ import androidx.compose.material.icons.rounded.SignalWifiConnectedNoInternet4
 import androidx.compose.material.icons.rounded.SurroundSound
 import androidx.compose.material.icons.rounded.Tag
 import androidx.compose.material.icons.rounded.Verified
+import androidx.compose.material.icons.rounded.VerifiedUser
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.FloatingActionButton
@@ -957,7 +958,7 @@ fun SetupWizard(
                             Text(text = BuildConfig.VERSION_NAME)
                         }
 
-                        // #AlwaysStayUpTodate
+                        // Build Number info for Users
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -966,12 +967,14 @@ fun SetupWizard(
 
                         ){
                             Icon(
-                                imageVector = Icons.Rounded.Tag,
+                                imageVector = Icons.Rounded.VerifiedUser,
                                 contentDescription = stringResource(R.string.tag_update),
                                 modifier = Modifier.size(24.dp)
                             )
                             Spacer(modifier = Modifier.width(8.dp))
                             Text(text = stringResource(R.string.tag_update))
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text(text = BuildConfig.VERSION_CODE.toString())
                         }
 
                         Spacer(Modifier.height(4.dp))
