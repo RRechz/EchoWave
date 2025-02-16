@@ -179,7 +179,6 @@ fun AboutScreen(
             Text(text = BuildConfig.VERSION_NAME)
         }
 
-        // Build Official Check
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -195,7 +194,7 @@ fun AboutScreen(
             Spacer(modifier = Modifier.width(8.dp))
             Text(text = stringResource(R.string.official_build))
             Spacer(modifier = Modifier.width(4.dp))
-            Text(text = stringResource(R.string.official))
+            Text(text = BuildConfig.VERSION_CODE.toString()) // Burası düzeltildi
         }
 
         // Device İnfo for Users
