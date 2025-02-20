@@ -2,6 +2,7 @@ package com.samyak.simpletube
 
 import android.annotation.SuppressLint
 import android.content.ComponentName
+import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
 import android.content.pm.PackageManager
@@ -83,6 +84,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
@@ -203,6 +205,7 @@ import com.samyak.simpletube.ui.screens.settings.PlayerSettings
 import com.samyak.simpletube.ui.screens.settings.PrivacySettings
 import com.samyak.simpletube.ui.screens.settings.SettingsScreen
 import com.samyak.simpletube.ui.screens.settings.StorageSettings
+import com.samyak.simpletube.ui.screens.settings.UpdateSettings
 import com.samyak.simpletube.ui.theme.ColorSaver
 import com.samyak.simpletube.ui.theme.DefaultThemeColor
 import com.samyak.simpletube.ui.theme.OuterTuneTheme
@@ -836,7 +839,8 @@ class MainActivity : ComponentActivity() {
                                                     ) {
                                                         SettingsIconWithUpdateBadge(
                                                             currentVersion = BuildConfig.VERSION_NAME,
-                                                            onSettingsClick = { navController.navigate("settings") }
+                                                            onSettingsClick = { navController.navigate("settings") },
+                                                            context = LocalContext.current
                                                         )
                                                     }
                                                 }
@@ -1234,6 +1238,9 @@ class MainActivity : ComponentActivity() {
                                 composable("settings/local") {
                                     LocalPlayerSettings(navController, scrollBehavior)
                                 }
+                                composable("settings/update_settings") {
+                                    UpdateSettings(navController)
+                                }
                                 composable("settings/experimental") {
                                     ExperimentalSettings(navController, scrollBehavior)
                                 }
@@ -1327,11 +1334,13 @@ val LocalIsNetworkConnected = staticCompositionLocalOf<Boolean> { error("No Netw
 @Composable
 fun SettingsIconWithUpdateBadge(
     currentVersion: String,
+    context: Context, // Context'i ekleyin
     onSettingsClick: () -> Unit
 ) {
     var showUpdateBadge by remember { mutableStateOf(false) }
     var showUpdateDialog by remember { mutableStateOf(false) } // Pop-up'ı göstermek için state
     var lastUpdateNotificationTime by remember { mutableStateOf(0L) }
+    val sharedPreferences = remember { context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE) } //SharedPreferences
 
     LaunchedEffect(Unit) {
         val latestVersion = checkForUpdates()
@@ -1339,7 +1348,8 @@ fun SettingsIconWithUpdateBadge(
             showUpdateBadge = isNewerVersion(latestVersion, currentVersion)
 
             val currentTime = System.currentTimeMillis()
-            if (showUpdateBadge && currentTime - lastUpdateNotificationTime > 6 * 60 * 60 * 1000) {
+            val showUpdateNotification = sharedPreferences.getBoolean("show_update_notification", true) // SharedPreferences'tan oku
+            if (showUpdateBadge && currentTime - lastUpdateNotificationTime > 6 * 60 * 60 * 1000 && showUpdateNotification) {
                 showUpdateDialog = true // Pop-up'ı göster
                 lastUpdateNotificationTime = currentTime
             }
