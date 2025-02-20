@@ -26,6 +26,7 @@ import androidx.compose.material.icons.rounded.PlayArrow
 import androidx.compose.material.icons.rounded.Restore
 import androidx.compose.material.icons.rounded.SdCard
 import androidx.compose.material.icons.rounded.Security
+import androidx.compose.material.icons.rounded.SettingsSuggest
 import androidx.compose.material.icons.rounded.Storage
 import androidx.compose.material.icons.rounded.WarningAmber
 import androidx.compose.material3.CardDefaults
@@ -308,6 +309,11 @@ fun SettingsScreen(
             title = { Text(stringResource(R.string.backup_restore)) },
             icon = { Icon(Icons.Rounded.Restore, null) },
             onClick = { navController.navigate("settings/backup_restore") }
+        )
+        PreferenceEntry(
+            title = { Text(stringResource(R.string.update_settings)) },
+            icon = { Icon(Icons.Rounded.SettingsSuggest, null) },
+            onClick = { navController.navigate("settings/update_settings") }
         )
         PreferenceEntry(
             title = { Text(stringResource(R.string.experimental_settings_title)) },
