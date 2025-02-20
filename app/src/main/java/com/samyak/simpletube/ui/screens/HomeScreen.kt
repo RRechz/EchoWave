@@ -1,6 +1,8 @@
 package com.samyak.simpletube.ui.screens
 
 import android.annotation.SuppressLint
+import android.widget.Toast
+import android.content.Context
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
@@ -45,17 +47,23 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import coil.compose.AsyncImage
@@ -356,6 +364,18 @@ fun HomeScreen(
                 }
             )
         }
+
+        val context = LocalContext.current
+        val sharedPreferences = remember { context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE) }
+        var showToast by remember { mutableStateOf(true) } // Başlangıçta true olarak ayarlayın
+
+        val lifecycleOwner = LocalLifecycleOwner.current
+        LaunchedEffect(lifecycleOwner) {
+            lifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                showToast = true // Uygulama her ön plana geldiğinde true olarak ayarlayın
+            }
+        }
+
         LazyColumn(
             state = lazylistState,
             contentPadding = LocalPlayerAwareWindowInsets.current.asPaddingValues()
@@ -371,19 +391,13 @@ fun HomeScreen(
                     else -> stringResource(id = R.string.good_evening)
                 }
 
-                // Mesajı ve arama alanını içeren bir Column oluştur
-                Column(
-                    modifier = Modifier
-                        .windowInsetsPadding(WindowInsets.systemBars.only(WindowInsetsSides.Horizontal))
-                        .padding(horizontal = 12.dp, vertical = 6.dp)
-                        .fillMaxWidth()
-                        .animateItem()
-                ) {
-                    // Mesajı görüntüle
-                    Text(
-                        text = greetingMessage,
-                        style = MaterialTheme.typography.headlineSmall,
-                    )
+                // Toast mesajını göster
+                LaunchedEffect(key1 = showToast) {
+                    if (showToast) {
+                        Toast.makeText(context, greetingMessage, Toast.LENGTH_SHORT).show()
+                        showToast = false
+                        // SharedPreferences'a artık ihtiyacımız yok
+                    }
                 }
                 Row(
                     modifier = Modifier
