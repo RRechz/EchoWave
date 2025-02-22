@@ -1022,6 +1022,11 @@ class MainActivity : ComponentActivity() {
                                 }
                             }
 
+                            // SharedPreferences'tan ayarı oku
+                            val context = LocalContext.current
+                            val sharedPreferences = remember { context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE) }
+                            val showGreetingMessages = sharedPreferences.getBoolean("show_greeting_messages", true)
+
                             NavHost(
                                 navController = navController,
                                 startDestination = when (tabOpenedFromShortcut ?: defaultOpenTab) {
@@ -1062,7 +1067,10 @@ class MainActivity : ComponentActivity() {
                                 modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
                             ) {
                                 composable(Screens.Home.route) {
-                                    HomeScreen(navController)
+                                    HomeScreen(
+                                        navController = navController,
+                                        showGreetingMessages = showGreetingMessages
+                                    )
                                 }
                                 composable(Screens.Songs.route) {
                                     LibrarySongsScreen(navController)
