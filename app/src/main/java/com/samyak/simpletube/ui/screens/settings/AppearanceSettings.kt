@@ -1,5 +1,6 @@
 package com.samyak.simpletube.ui.screens.settings
 
+import android.content.Context
 import android.os.Build
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.border
@@ -27,6 +28,7 @@ import androidx.compose.material.icons.rounded.Contrast
 import androidx.compose.material.icons.rounded.DarkMode
 import androidx.compose.material.icons.rounded.DragHandle
 import androidx.compose.material.icons.rounded.FolderCopy
+import androidx.compose.material.icons.rounded.Message
 import androidx.compose.material.icons.rounded.MoreHoriz
 import androidx.compose.material.icons.rounded.Palette
 import androidx.compose.material.icons.rounded.Reorder
@@ -47,6 +49,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -268,6 +271,28 @@ fun AppearanceSettings(
             icon = { Icon(Icons.Rounded.Reorder, null) },
             onClick = {
                 showTabArrangement = true
+            }
+        )
+
+        // SharedPreferences'a erişim
+        val context = LocalContext.current
+        val sharedPreferences = remember { context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE) }
+
+        // SharedPreferences'tan ayarı oku (varsayılan olarak true)
+        val showGreetingMessages = rememberSaveable {
+            mutableStateOf(sharedPreferences.getBoolean("show_greeting_messages", true))
+        }
+
+
+        SwitchPreference(
+            title = { Text(stringResource(R.string.greeting_messages_title)) },
+            description = stringResource(R.string.greeting_messages_description),
+            icon = { Icon(Icons.Rounded.Message, null) },
+            checked = showGreetingMessages.value, // mutableStateOf'un .value özelliği
+            onCheckedChange = { newValue ->
+                showGreetingMessages.value = newValue // mutableStateOf'u güncelle
+                // SharedPreferences'a kaydet
+                sharedPreferences.edit().putBoolean("show_greeting_messages", newValue).apply()
             }
         )
 
