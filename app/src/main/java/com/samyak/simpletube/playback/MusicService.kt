@@ -51,6 +51,7 @@ import androidx.media3.session.MediaController
 import androidx.media3.session.MediaLibraryService
 import androidx.media3.session.MediaSession
 import androidx.media3.session.SessionToken
+import com.google.common.util.concurrent.MoreExecutors
 import com.samyak.simpletube.MainActivity
 import com.samyak.simpletube.R
 import com.samyak.simpletube.constants.AudioNormalizationKey
@@ -97,7 +98,6 @@ import com.samyak.simpletube.utils.dataStore
 import com.samyak.simpletube.utils.enumPreference
 import com.samyak.simpletube.utils.get
 import com.samyak.simpletube.utils.reportException
-import com.google.common.util.concurrent.MoreExecutors
 import com.zionhuang.innertube.YouTube
 import com.zionhuang.innertube.models.SongItem
 import com.zionhuang.innertube.models.WatchEndpoint
@@ -720,11 +720,11 @@ class MusicService : MediaLibraryService(),
                         ?.filter { it.isAudio }
                         ?.maxByOrNull {
                             it.bitrate * when (audioQuality) {
-                                AudioQuality.AUTO -> if (connectivityManager.isActiveNetworkMetered) -1 else 25
-                                AudioQuality.EXTREME -> 25
-                                AudioQuality.MAX -> 10
-                                AudioQuality.HIGH -> 9
-                                AudioQuality.LOW -> 1
+                                AudioQuality.AUTO -> if (connectivityManager.isActiveNetworkMetered) -1 else 50
+                                AudioQuality.EXTREME -> 300
+                                AudioQuality.MAX -> 250
+                                AudioQuality.HIGH -> 150
+                                AudioQuality.LOW -> 50
                             } + (if (it.mimeType.startsWith("audio/webm")) 5120 else 0) // prefer opus stream
                         }
                 } ?: throw PlaybackException(getString(R.string.error_no_stream), null, ERROR_CODE_NO_STREAM)
@@ -774,7 +774,7 @@ class MusicService : MediaLibraryService(),
     override fun onShuffleModeEnabledChanged(shuffleModeEnabled: Boolean) {
         if (player.shuffleModeEnabled) {
             triggerShuffle()
-        player.shuffleModeEnabled = false
+            player.shuffleModeEnabled = false
         }
     }
 
@@ -894,5 +894,21 @@ class MusicService : MediaLibraryService(),
         const val KEEP_ALIVE_CHANNEL_ID = "outertune_keep_alive"
         const val ERROR_CODE_NO_STREAM = 1000001
         const val CHUNK_LENGTH = 512 * 1024L
+    }
+
+    fun playSongById(songId: String) {
+        scope.launch(Dispatchers.IO) {
+            val song = database.song(songId).firstOrNull()
+            song?.let { songEntity ->
+                val mediaItem = songEntity.toMediaItem()
+
+                player.setMediaItem(mediaItem)
+                player.prepare()
+                player.play()
+
+            } ?: run {
+                Toast.makeText(this@MusicService, "Song not found", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 }
