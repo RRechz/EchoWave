@@ -1,6 +1,8 @@
 package com.samyak.simpletube.ui.menu
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -91,6 +93,22 @@ import kotlin.math.log2
 import kotlin.math.pow
 import kotlin.math.round
 import kotlin.math.roundToInt
+import android.graphics.Bitmap
+import android.graphics.Color
+import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.Image
+import androidx.compose.material.icons.rounded.QrCode
+import androidx.compose.material3.Button
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.core.content.ContextCompat
+import com.google.zxing.BarcodeFormat
+import com.google.zxing.qrcode.QRCodeWriter
+import com.google.zxing.common.BitMatrix
+import com.journeyapps.barcodescanner.ScanContract
+import com.journeyapps.barcodescanner.ScanOptions
+import com.samyak.simpletube.playback.PlayerConnection
 
 @Composable
 fun PlayerMenu(
@@ -299,6 +317,10 @@ fun PlayerMenu(
         )
     }
 
+    var showQrDialog by remember { mutableStateOf(false) }
+    var qrDialogState by remember { mutableStateOf<QrDialogState>(QrDialogState.Selection) }
+    var scannedSongId by remember { mutableStateOf<String?>(null) }
+
     Row(
         horizontalArrangement = Arrangement.spacedBy(24.dp),
         verticalAlignment = Alignment.CenterVertically,
@@ -441,7 +463,181 @@ fun PlayerMenu(
         ) {
             showPitchTempoDialog = true
         }
+        // ---------- QR Kod Butonu (BAŞLANGIÇ) ----------
+        GridMenuItem(
+            icon = Icons.Rounded.QrCode, // Uygun bir ikon ekleyin
+            title = R.string.add_with_qr_code // Uygun bir string resource ekleyin
+        ) {
+            showQrDialog = true
+            qrDialogState = QrDialogState.Selection // Başlangıçta seçim ekranını göster
+        }
+        // ---------- QR Kod Butonu (BİTŞİ) ----------
     }
+    if (showQrDialog) {
+        QrDialog(
+            mediaMetadata = mediaMetadata,
+            qrDialogState = qrDialogState,
+            onQrDialogStateChange = { qrDialogState = it },
+            onDismiss = { showQrDialog = false },
+            onSongScanned = { scannedSongId = it;  showQrDialog = false },
+            playerConnection = playerConnection
+        )
+    }
+
+    // ---------- Tarama İşleminden Sonra Şarkıyı Oynat ----------
+    LaunchedEffect(scannedSongId) {
+        scannedSongId?.let { songId ->
+            //Şarkıyı çalmak için PlayerConnection kullanımı:
+            playerConnection.playSong(songId) //playSong playerConnection'da tanımlı olmalı.
+
+        }
+    }
+}
+
+// ---------- Durumları Temsil Eden enum class'ı ----------
+sealed class QrDialogState {
+    object Selection : QrDialogState()
+    object Generate : QrDialogState()
+    object Scan : QrDialogState()
+}
+
+@Composable
+fun QrDialog(
+    mediaMetadata: MediaMetadata,
+    qrDialogState: QrDialogState,
+    onQrDialogStateChange: (QrDialogState) -> Unit,
+    onDismiss: () -> Unit,
+    onSongScanned: (String) -> Unit,
+    playerConnection: PlayerConnection // ---------- PlayerConnection'ı parametre olarak ekle ----------
+) {
+
+    // ---------- Kamera İzni ----------
+    val context = LocalContext.current
+    val permissionLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted ->
+        if (isGranted) {
+            // ---------- İzin Verildi -> Tarama Durumuna Geç ----------
+            onQrDialogStateChange(QrDialogState.Scan)
+        } else {
+            // ---------- İzin Verilmedi -> Kullanıcı Bilgilendir ----------
+            Toast.makeText(context, R.string.camera_permission_denied, Toast.LENGTH_SHORT).show()
+
+        }
+    }
+
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text(stringResource(R.string.share_song)) },
+        text = {
+            when (qrDialogState) {
+                QrDialogState.Selection -> {
+                    Column {
+                        Button(onClick = { onQrDialogStateChange(QrDialogState.Generate) }) {
+                            Text(stringResource(R.string.generate_qr_code))
+                        }
+                        Button(onClick = {
+                            // ---------- Kamera İzni Kontrol ----------
+                            if (ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED){
+                                onQrDialogStateChange(QrDialogState.Scan)
+                            } else {
+                                // ---------- İzin İste ----------
+                                permissionLauncher.launch(Manifest.permission.CAMERA)
+                            }
+
+                        }) {
+                            Text(stringResource(R.string.scan_qr_code))
+                        }
+                    }
+                }
+                QrDialogState.Generate -> {
+                    val qrBitmap = rememberQrBitmap(content = "echowave:song:${mediaMetadata.id}") // ---------- Örnek Paylaşım Formatı ----------
+                    qrBitmap?.let {
+                        Image(
+                            bitmap = it.asImageBitmap(),
+                            contentDescription = stringResource(R.string.qr_code), //String resource
+                            modifier = Modifier.size(256.dp) // Boyutu ayarla
+                        )
+                    } ?: Text(stringResource(R.string.qr_code_generation_failed)) // Hata mesajı
+                }
+                QrDialogState.Scan -> {
+                    QrCodeScanner { scannedContent ->
+                        if (scannedContent != null) {
+
+                            val prefix = "echowave:song:"
+                            if(scannedContent.startsWith(prefix)){
+                                val songId = scannedContent.removePrefix(prefix)
+                                onSongScanned(songId)
+                            } else {
+                                // ---------- Hatalı QR Kod ----------
+                                Toast.makeText(context, R.string.ınvalid_qr_code, Toast.LENGTH_SHORT).show()
+                                onQrDialogStateChange(QrDialogState.Selection) //Seçim ekranına geri dön.
+                            }
+
+                        }
+                        onDismiss() // Tarayıcıyı kapattıktan sonra dialog'u da kapat
+                    }
+                }
+            }
+        },
+        confirmButton = {
+            TextButton(onClick = onDismiss) {
+                Text(stringResource(android.R.string.cancel))
+            }
+        }
+    )
+}
+
+@Composable
+fun QrCodeScanner(onQrCodeScanned: (String?) -> Unit) {
+    val context = LocalContext.current
+    val scanLauncher = rememberLauncherForActivityResult(ScanContract()) { result ->
+        if (result.contents != null) {
+            onQrCodeScanned(result.contents)
+        } else {
+            onQrCodeScanned(null) // Tarama iptal edildi veya başarısız oldu
+        }
+    }
+
+    val options = ScanOptions().apply {
+        setDesiredBarcodeFormats(ScanOptions.QR_CODE)
+        setPrompt(context.getString(R.string.scan_qr_code_prompt)) // Tarama ekranındaki mesaj
+        setCameraId(0)   // Kullanılacak kamera (0 genellikle arka kameradır)
+        setBeepEnabled(true)  // Tarama başarılı olduğunda bip sesi
+        setOrientationLocked(false) //Ekran yönünü kilitle
+        setBarcodeImageEnabled(false)  //Barkodun resmini kaydet
+
+    }
+
+    LaunchedEffect(Unit) { // veya başka bir key, tarayıcıyı başlatmak istediğinizde
+        scanLauncher.launch(options)
+    }
+
+}
+
+@Composable
+fun rememberQrBitmap(content: String, size: Int = 512): Bitmap? {
+    return remember(content) {
+        if (content.isBlank()) {
+            null
+        } else {
+            generateQrCode(content, size)
+        }
+    }
+}
+
+fun generateQrCode(content: String, size: Int): Bitmap {
+    val qrCodeWriter = QRCodeWriter()
+    val bitMatrix: BitMatrix = qrCodeWriter.encode(content, BarcodeFormat.QR_CODE, size, size)
+    val width = bitMatrix.width
+    val height = bitMatrix.height
+    val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565)
+    for (x in 0 until width) {
+        for (y in 0 until height) {
+            bitmap.setPixel(x, y, if (bitMatrix[x, y]) Color.BLACK else Color.WHITE)
+        }
+    }
+    return bitmap
 }
 
 @Composable
