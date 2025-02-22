@@ -50,6 +50,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -128,6 +129,7 @@ import kotlin.random.Random
 @Composable
 fun HomeScreen(
     navController: NavController,
+    showGreetingMessages: Boolean,
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
     val menuState = LocalMenuState.current
@@ -381,22 +383,25 @@ fun HomeScreen(
             contentPadding = LocalPlayerAwareWindowInsets.current.asPaddingValues()
         ) {
             item {
-                // Zamanı al
-                val currentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
+                val context = LocalContext.current
+                var hasGreetingBeenShown by rememberSaveable { mutableStateOf(false) }
 
-                // Uygun mesajı seç
+                // SharedPreferences'tan ayarı oku
+                val sharedPreferences = remember { context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE) }
+                val showGreetingMessages = sharedPreferences.getBoolean("show_greeting_messages", true) //Ayarı sharedPref'den oku
+
+
+                val currentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
                 val greetingMessage = when (currentHour) {
                     in 6..10 -> stringResource(id = R.string.good_morning)
                     in 11..17 -> stringResource(id = R.string.good_afternoon)
                     else -> stringResource(id = R.string.good_evening)
                 }
 
-                // Toast mesajını göster
-                LaunchedEffect(key1 = showToast) {
-                    if (showToast) {
-                        Toast.makeText(context, greetingMessage, Toast.LENGTH_SHORT).show()
-                        showToast = false
-                        // SharedPreferences'a artık ihtiyacımız yok
+                LaunchedEffect(key1 = showGreetingMessages) {
+                    if (showGreetingMessages && !hasGreetingBeenShown) {
+                        Toast.makeText(context, greetingMessage, Toast.LENGTH_LONG).show()
+                        hasGreetingBeenShown = true
                     }
                 }
                 Row(
