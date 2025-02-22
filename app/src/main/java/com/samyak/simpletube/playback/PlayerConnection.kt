@@ -194,4 +194,8 @@ class PlayerConnection(
     companion object {
         var queueBoard = QueueBoard()
     }
+
+    fun playSong(songId: String) {
+        service.playSongById(songId)
+    }
 }
