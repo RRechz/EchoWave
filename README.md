@@ -3,7 +3,7 @@
 
 ![alt text](https://github.com/RRechz/EchoWave/blob/master/images/banner.png)
 
-Built on the resources of the Muzza open source project, EchoWave promises you a free, ad-free and free music listening experience with an interface inspired by Android's pure Material You and Material 3 design. You can freely listen to all the music/songs you want without paying anything and without ads.
+Built on the resources of the Simple-Tube and Muzza open source project, EchoWave promises you a free, ad-free and free music listening experience with an interface inspired by Android's pure Material You and Material 3 design. You can freely listen to all the music/songs you want without paying anything and without ads.
 
 [<img src="https://github.com/machiav3lli/oandbackupx/blob/034b226cea5c1b30eb4f6a6f313e4dadcbb0ece4/badge_github.png" alt="Get it on GitHub" height="80">](https://github.com/RRechz/EchoWave/releases/latest)
 
