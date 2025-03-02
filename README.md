@@ -12,7 +12,7 @@ Built on the resources of the Simple-Tube and Muzza open source project, EchoWav
 - Play songs from YT/YT Music without ads
 - Background playback
 - Search songs, videos, albums, and playlists from YouTube Music
-- *Harmony Atmos 2.0 from Babel Software
+- *Harmony Atmos from Babel Software
 - Login support
 - Offline Music Experience (Download)
 - Synchronized lyrics
