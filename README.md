@@ -27,7 +27,7 @@ Built on the Muzza open source project, the EchoWave project offers you a stylis
 
 > *Harmony Atmos - Birate Booster
 >
-> A simple voice assistant that gradually increases the speed with a fixed bitrate added to the existing bitrate value.
+> A simple sound enhancer assistant that gradually increases the speed with a fixed bitrate added to the existing bitrate value.
 
 > **Here's what you need to do for Android Auto;
 > 1. Go to Android Auto's settings and tap multiple times on the version in the bottom to enable developer settings
