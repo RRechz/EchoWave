@@ -3,7 +3,7 @@
 
 ![alt text](https://github.com/RRechz/EchoWave/blob/master/images/banner.png)
 
-Built on the resources of the Simple-Tube and Muzza open source project, EchoWave promises you a free, ad-free and free music listening experience with an interface inspired by Android's pure Material You and Material 3 design. You can freely listen to all the music/songs you want without paying anything and without ads.
+Built on the Muzza open source project, the EchoWave project offers you a stylish service with new and modern interface components added to the advanced YouTube/YT Music client. And it's completely free.
 
 [<img src="https://github.com/machiav3lli/oandbackupx/blob/034b226cea5c1b30eb4f6a6f313e4dadcbb0ece4/badge_github.png" alt="Get it on GitHub" height="80">](https://github.com/RRechz/EchoWave/releases/latest)
 
@@ -25,9 +25,9 @@ Built on the resources of the Simple-Tube and Muzza open source project, EchoWav
 - Personalized quick picks
 - Discord Rich Presence support
 
-> *Harmony Atmos 2.0 - AI-based Sound Enhancer
+> *Harmony Atmos - Birate Booster
 >
-> A simple audio enhancer similar to Dolby Atmos that gradually multiplies the fixed virtual bitrate values added to the existing bitrate values to provide the user with clean and high quality sound.
+> A simple voice assistant that gradually increases the speed with a fixed bitrate added to the existing bitrate value.
 
 > **Here's what you need to do for Android Auto;
 > 1. Go to Android Auto's settings and tap multiple times on the version in the bottom to enable developer settings
